@@ -6,13 +6,9 @@ A modern, type-safe, and performant filtering-focused web app with a TypeScript 
 
 ## 🎥 Demo Videos
 
-- Demo 1: [Add your link here](#) — short caption or what this demo showcases.
+- Demo 1: [Add your link here]((https://youtu.be/QP0PilhpolQ)) — short caption or what this demo showcases.
 - Demo 2: [Add your link here](#) — short caption or what this demo showcases.
 
-Or use thumbnails (YouTube example):
-| Demo 1 | Demo 2 |
-| --- | --- |
-| [![Watch Demo 1](https://img.youtube.com/vi/VIDEO_ID_1/hqdefault.jpg)](https://youtu.be/VIDEO_ID_1) | [![Watch Demo 2](https://img.youtube.com/vi/VIDEO_ID_2/hqdefault.jpg)](https://youtu.be/VIDEO_ID_2) |
 
 ---
 
