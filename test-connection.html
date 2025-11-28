@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtr Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-box {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .success { background: #4CAF50; color: white; }
+        .error { background: #f44336; color: white; }
+        .pending { background: #ff9800; color: white; }
+        button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover { background: #0b7dda; }
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Filtr Connection Test</h1>
+    
+    <div class="test-box">
+        <h2>Backend Health Check</h2>
+        <p>Testing: <code>http://127.0.0.1:8000/health</code></p>
+        <p>Status: <span id="health-status" class="status pending">Testing...</span></p>
+        <button onclick="testHealth()">Test Again</button>
+        <pre id="health-result"></pre>
+    </div>
+
+    <div class="test-box">
+        <h2>Analyze Claim</h2>
+        <input type="text" id="claim-input" placeholder="Enter a claim to test (e.g., 'Earth is round')" value="Earth is round">
+        <button onclick="testAnalyze()">Analyze Claim</button>
+        <p>Status: <span id="analyze-status" class="status pending">Ready</span></p>
+        <pre id="analyze-result"></pre>
+    </div>
+
+    <div class="test-box">
+        <h2>Frontend Status</h2>
+        <p>Frontend URL: <code>http://localhost:5173</code></p>
+        <p>You should see the Filtr UI when you visit the frontend.</p>
+        <a href="http://localhost:5173" target="_blank" style="display: inline-block; padding: 10px 20px; background: #4CAF50; color: white; text-decoration: none; border-radius: 4px;">Open Frontend</a>
+    </div>
+
+    <script>
+        // Test backend health
+        async function testHealth() {
+            const statusEl = document.getElementById('health-status');
+            const resultEl = document.getElementById('health-result');
+            
+            statusEl.className = 'status pending';
+            statusEl.textContent = 'Testing...';
+            resultEl.textContent = '';
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/health');
+                const data = await response.json();
+                
+                statusEl.className = 'status success';
+                statusEl.textContent = '✓ Connected';
+                resultEl.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                statusEl.className = 'status error';
+                statusEl.textContent = '✗ Failed';
+                resultEl.textContent = 'Error: ' + error.message + '\n\nMake sure backend is running on http://127.0.0.1:8000';
+            }
+        }
+
+        // Test analyze endpoint
+        async function testAnalyze() {
+            const statusEl = document.getElementById('analyze-status');
+            const resultEl = document.getElementById('analyze-result');
+            const claim = document.getElementById('claim-input').value;
+
+            if (!claim.trim()) {
+                alert('Please enter a claim to test');
+                return;
+            }
+
+            statusEl.className = 'status pending';
+            statusEl.textContent = 'Analyzing...';
+            resultEl.textContent = 'This may take 2-5 seconds...';
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/v1/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ claim: claim })
+                });
+                
+                const data = await response.json();
+                
+                statusEl.className = 'status success';
+                statusEl.textContent = '✓ Analysis Complete';
+                
+                // Format the result nicely
+                const formatted = `Claim: ${data.claim}
+Verdict: ${data.verdict}
+Confidence: ${data.confidence}%
+
+Status: ${data.status}
+Verification Source: ${data.verification_source || 'N/A'}
+
+Explanation:
+${data.explanation ? data.explanation.join('\n') : 'N/A'}
+
+Sources:
+${data.sources ? data.sources.join('\n') : 'None'}
+
+Confidence Breakdown:
+${JSON.stringify(data.confidence_breakdown, null, 2)}`;
+                
+                resultEl.textContent = formatted;
+            } catch (error) {
+                statusEl.className = 'status error';
+                statusEl.textContent = '✗ Failed';
+                resultEl.textContent = 'Error: ' + error.message + '\n\nMake sure backend is running on http://127.0.0.1:8000';
+            }
+        }
+
+        // Auto-test health on page load
+        window.onload = function() {
+            testHealth();
+        };
+    </script>
+</body>
+</html>

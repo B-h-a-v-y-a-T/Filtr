@@ -1,0 +1,63 @@
+.veracity-chain {
+    padding: 1.5rem;
+    height: 100%;
+}
+
+.chain-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.chain-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.chain-step {
+    display: flex;
+    gap: 1rem;
+    position: relative;
+}
+
+.step-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-secondary);
+    margin-top: 6px;
+    z-index: 2;
+}
+
+.step-connector {
+    position: absolute;
+    top: 18px;
+    left: 5px;
+    width: 2px;
+    height: calc(100% + 1.5rem - 12px);
+    background: rgba(6, 182, 212, 0.3);
+    z-index: 1;
+}
+
+.chain-step:last-child .step-connector {
+    display: none;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-source {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-secondary);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.step-desc {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+}

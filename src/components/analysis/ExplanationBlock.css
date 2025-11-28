@@ -1,0 +1,85 @@
+.explanation-block {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.explanation-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.explanation-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.explanation-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.explanation-section {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    padding: 1rem;
+    border-left: 3px solid rgba(102, 126, 234, 0.5);
+    transition: all 0.2s ease;
+}
+
+.explanation-section:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-left-color: rgba(102, 126, 234, 0.8);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.section-icon {
+    color: rgba(102, 126, 234, 0.8);
+    flex-shrink: 0;
+}
+
+.section-header h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.section-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.section-steps li {
+    padding-left: 1.5rem;
+    position: relative;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.section-steps li::before {
+    content: '•';
+    position: absolute;
+    left: 0.5rem;
+    color: rgba(102, 126, 234, 0.6);
+    font-weight: bold;
+}

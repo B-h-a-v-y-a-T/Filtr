@@ -1,0 +1,87 @@
+.analysis-input-container {
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.input-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.input-form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.input-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+}
+
+.analysis-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    background: var(--input-bg, rgba(15, 23, 42, 0.6));
+    border: 1px solid var(--input-border, var(--border-color));
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    font-size: 1rem;
+    transition: var(--transition-fast);
+}
+
+.analysis-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2);
+}
+
+.input-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-text);
+}
+
+.analyze-btn {
+    padding: 0.5rem 2rem;
+    background: linear-gradient(to right, #a855f7, #06b6d4);
+    border: none;
+    border-radius: var(--radius-sm);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+}
+
+.analyze-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+}

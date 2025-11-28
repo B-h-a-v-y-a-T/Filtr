@@ -1,0 +1,60 @@
+.verdict-card {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.8));
+    border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.verdict-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.verdict-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(168, 85, 247, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+}
+
+.verdict-info {
+    flex: 1;
+}
+
+.verdict-info h3 {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.confidence-score {
+    text-align: right;
+}
+
+.score-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+.score-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-secondary);
+}
+
+.verdict-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+}

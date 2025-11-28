@@ -1,0 +1,25 @@
+.counter-narrative {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--color-success);
+    background: rgba(34, 197, 94, 0.05);
+}
+
+.narrative-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.narrative-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-success);
+}
+
+.narrative-content {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text);
+}

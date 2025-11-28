@@ -1,0 +1,36 @@
+.logo-strip {
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.strip-label {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+}
+
+.logos-container {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    /* For scrollbar */
+}
+
+.network-logo {
+    font-weight: 700;
+    color: var(--color-text-muted);
+    opacity: 0.6;
+    transition: var(--transition-fast);
+    cursor: default;
+}
+
+.network-logo:hover {
+    color: var(--color-text);
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}

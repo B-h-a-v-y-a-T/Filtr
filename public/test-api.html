@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+    <style>
+        body { font-family: Arial; background: #1a1a2e; color: white; padding: 20px; }
+        input { padding: 10px; width: 300px; margin: 10px 0; }
+        button { padding: 10px 20px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        pre { background: #2a2a4e; padding: 15px; border-radius: 8px; overflow: auto; max-height: 400px; }
+        .result { margin-top: 20px; }
+        h2 { color: #00ff88; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Direct API Test</h1>
+    <p>This tests the backend API directly from the browser.</p>
+    
+    <input type="text" id="claim" placeholder="Enter a claim to test..." value="The Earth is round">
+    <br>
+    <button onclick="testAPI()">Test API</button>
+    
+    <div class="result" id="result"></div>
+
+    <script>
+        async function testAPI() {
+            const claim = document.getElementById('claim').value;
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.innerHTML = '<p>⏳ Testing...</p>';
+            
+            try {
+                console.log('Testing with claim:', claim);
+                
+                const response = await fetch('http://localhost:8000/api/v1/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ claim: claim })
+                });
+                
+                console.log('Response status:', response.status);
+                
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                resultDiv.innerHTML = `
+                    <h2>✅ API Response</h2>
+                    <p><strong>Status:</strong> ${data.status}</p>
+                    <p><strong>Verdict:</strong> ${data.verdict || data.final_verdict}</p>
+                    <p><strong>Confidence:</strong> ${data.confidence}%</p>
+                    <p><strong>Claim Type:</strong> ${data.claim_type || 'N/A'}</p>
+                    <h3>Full Response:</h3>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `<h2 style="color: red;">❌ Error</h2><pre>${error.message}</pre>`;
+            }
+        }
+    </script>
+</body>
+</html>
