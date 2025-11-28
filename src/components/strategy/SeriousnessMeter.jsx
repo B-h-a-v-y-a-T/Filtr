@@ -4,9 +4,9 @@ import './SeriousnessMeter.css';
 const SeriousnessMeter = ({ level = 0, classification = 'Medium', justification = '' }) => {
     const getColor = (score) => {
         if (score === 0) return 'hsl(0, 0%, 50%)'; // Gray for no score
-        if (score <= 25) return 'hsl(120, 100%, 50%)'; // Green
-        if (score <= 50) return 'hsl(60, 100%, 50%)'; // Yellow
-        if (score <= 75) return 'hsl(30, 100%, 50%)'; // Orange
+        if (score <= 24) return 'hsl(120, 100%, 50%)'; // Green
+        if (score <= 49) return 'hsl(60, 100%, 50%)'; // Yellow
+        if (score <= 74) return 'hsl(30, 100%, 50%)'; // Orange
         return 'hsl(0, 100%, 50%)'; // Red
     };
 

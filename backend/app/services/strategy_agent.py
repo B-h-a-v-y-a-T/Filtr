@@ -61,29 +61,27 @@ async def assess_threat_severity(misinformation: str) -> Dict[str, Any]:
         model = genai.GenerativeModel(GEMINI_MODEL)
         
         prompt = f"""Analyze this misinformation claim and assess its threat severity for a company.
-
+        
 Misinformation: {misinformation}
 
-Return ONLY a JSON object (no markdown, no explanations):
+Instructions:
+1. First, analyze the potential impact, virality, and risks (legal, safety, reputation).
+2. Then, assign a score from 0 to 100 where 0 is harmless and 100 is catastrophic.
+3. Finally, output the JSON object.
+
+Threat Score Scale (HIGHER = MORE DANGEROUS):
+- 0-24 (Low): Harmless misinformation, low reach, no real-world impact.
+- 25-49 (Medium): Confusing or misleading content, limited audience impact.
+- 50-74 (High): Coordinated misinformation, political or health-related risk.
+- 75-100 (Critical): Crisis-level misinformation, can cause panic, harm, or real-world action.
+
+Return ONLY a JSON object at the end:
 {{
     "threat_score": <integer 0-100>,
     "classification": "<Low|Medium|High|Critical>",
-    "justification": "<brief explanation using evidence and logic>"
+    "justification": "<brief explanation>"
 }}
-
-Threat Score Guidelines:
-- 0-25 (Low): Minor false claim, minimal potential impact, niche audience
-- 26-50 (Medium): Moderate false claim, some potential spread, notable audience
-- 51-75 (High): Serious false claim, high potential virality, large audience, brand/reputation risk
-- 76-100 (Critical): Severe false claim, imminent viral spread, safety/legal implications, regulatory risk
-
-Classification must match threat_score:
-- 0-25 → "Low"
-- 26-50 → "Medium"
-- 51-75 → "High"
-- 76-100 → "Critical"
-
-Be factual and evidence-based. Return ONLY the JSON object."""
+"""
 
         response = model.generate_content(
             prompt,
@@ -100,11 +98,11 @@ Be factual and evidence-based. Return ONLY the JSON object."""
         threat_score = max(0, min(100, int(result.get("threat_score", 50))))
         
         # Ensure classification matches score
-        if threat_score <= 25:
+        if threat_score <= 24:
             classification = "Low"
-        elif threat_score <= 50:
+        elif threat_score <= 49:
             classification = "Medium"
-        elif threat_score <= 75:
+        elif threat_score <= 74:
             classification = "High"
         else:
             classification = "Critical"
@@ -166,11 +164,11 @@ async def generate_public_message(misinformation: str, threat_score: int, analys
         model = genai.GenerativeModel(GEMINI_MODEL)
         
         # Determine tone based on threat score
-        if threat_score <= 25:
+        if threat_score <= 24:
             tone_mode = "Calm, low amplification - simple clarification"
-        elif threat_score <= 50:
+        elif threat_score <= 49:
             tone_mode = "Neutral & clarifying - factual correction"
-        elif threat_score <= 75:
+        elif threat_score <= 74:
             tone_mode = "Firm with factual reinforcement - direct refutation"
         else:
             tone_mode = "Urgent, direct, safety-driven - immediate clarification"
@@ -259,14 +257,14 @@ def get_recommended_actions(threat_score: int) -> List[Dict[str, str]]:
     """
     actions = []
     
-    if threat_score <= 25:
+    if threat_score <= 24:
         # LOW
         actions = [
             {"action": "Soft clarification post on social media", "priority": "Low"},
             {"action": "Minimal escalation - monitor reach", "priority": "Low"},
             {"action": "Continued monitoring for 48-72 hours", "priority": "Low"}
         ]
-    elif threat_score <= 50:
+    elif threat_score <= 49:
         # MEDIUM
         actions = [
             {"action": "Publish official response statement", "priority": "Medium"},
@@ -274,7 +272,7 @@ def get_recommended_actions(threat_score: int) -> List[Dict[str, str]]:
             {"action": "Report content to internal PR/communications team", "priority": "Medium"},
             {"action": "Track mentions across platforms", "priority": "Medium"}
         ]
-    elif threat_score <= 75:
+    elif threat_score <= 74:
         # HIGH
         actions = [
             {"action": "Immediate official statement publication", "priority": "High"},
@@ -609,11 +607,11 @@ def _parse_json_response(text: str) -> Dict[str, Any]:
 
 def _get_threat_classification(score: int) -> str:
     """Get threat classification from score."""
-    if score <= 25:
+    if score <= 24:
         return "Low"
-    elif score <= 50:
+    elif score <= 49:
         return "Medium"
-    elif score <= 75:
+    elif score <= 74:
         return "High"
     else:
         return "Critical"
