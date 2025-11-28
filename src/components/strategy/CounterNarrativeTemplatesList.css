@@ -1,0 +1,42 @@
+.templates-list {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.templates-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.templates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.template-card {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.template-card:hover {
+    background: rgba(168, 85, 247, 0.1);
+    border-color: var(--color-primary);
+}
+
+.template-card h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: var(--color-text);
+}
+
+.template-card p {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}

@@ -1,0 +1,22 @@
+.notification-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.notification-info h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.notification-info p {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}

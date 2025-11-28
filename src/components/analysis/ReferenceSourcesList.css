@@ -1,0 +1,75 @@
+.reference-list {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.reference-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.sources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.source-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    transition: var(--transition-fast);
+    text-decoration: none;
+}
+
+.source-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+.source-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    background: white;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.source-icon img {
+    width: 16px;
+    height: 16px;
+}
+
+.source-info {
+    flex: 1;
+    overflow: hidden;
+}
+
+.source-name {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.source-domain {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+.source-link-icon {
+    color: var(--color-text-muted);
+}

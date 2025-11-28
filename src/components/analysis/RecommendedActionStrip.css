@@ -1,0 +1,78 @@
+.action-strip {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.action-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.action-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.severity-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+}
+
+.severity-high {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--color-danger);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.actions-list {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.action-btn-primary,
+.action-btn-secondary,
+.action-btn-danger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    border: none;
+}
+
+.action-btn-primary {
+    background: var(--color-primary);
+    color: white;
+}
+
+.action-btn-primary:hover {
+    background: #9333ea;
+}
+
+.action-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-text);
+}
+
+.action-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.action-btn-danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--color-danger);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.action-btn-danger:hover {
+    background: rgba(239, 68, 68, 0.2);
+}
