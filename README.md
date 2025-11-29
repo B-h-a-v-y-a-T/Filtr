@@ -130,10 +130,13 @@ Designed specifically for high-noise situations where citizens struggle to trust
 
 ## 🤝 Contributors
 
-| Name   | Roles                               |
-| ------ | ----------------------------------- |
-| Vedant | Strategy Engine + Core Integrations |
-| Bhavya | Core Analysis + UI                  |
-| Param  | Web Scraper + 2FA + Summary Feeds   |
+| Name       | Core Responsibilities                                                    | Additional Contribution                                        |
+| ---------- | ------------------------------------------------------------------------ | -------------------------------------------------------------- |
+| **Vedant** | Strategy Module + Architecture Integration + Branch Merge Coordination   | Connected analysis with UI & ensured system-wide compatibility |
+| **Bhavya** | News Verification Engine, Confidence Model, Wikipedia & Fact-Check Logic | Helped refine output structure & improve result clarity        |
+| **Param**  | Web Scraper + Daily Summary System + 2-Factor Authentication             | Assisted in connecting backend scrapers and auth flow          |
+| **Kushal** | UI/UX for Risk Analysis + Design Layout + Frontend Styling               | Helped test flow, improve readability & user experience        |
+| **Team**   | Testing, Debugging, Feature Finalization                                 | Preparing for final build & future deployment                  |
+
 
 ---
