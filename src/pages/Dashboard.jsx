@@ -5,12 +5,16 @@ import AlertTrendGraph from '../components/dashboard/AlertTrendGraph';
 import HistoryTable from '../components/dashboard/HistoryTable';
 import ChatBotButton from '../components/dashboard/ChatBotButton';
 import PaginationLoadMore from '../components/global/PaginationLoadMore';
+import WatcherAgentWidget from '../components/dashboard/WatcherAgentWidget';
 import './Dashboard.css';
 
 const Dashboard = () => {
     return (
         <div className="dashboard-page">
             <DashboardStatsRow />
+
+            {/* Watcher Agent Widget - Full Width */}
+            <WatcherAgentWidget />
 
             <div className="dashboard-grid">
                 <div className="dashboard-main-chart">

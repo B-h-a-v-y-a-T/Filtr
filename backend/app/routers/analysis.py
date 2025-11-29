@@ -626,3 +626,137 @@ async def rewrite_strategy_message(
             "message": f"Failed to rewrite message: {str(e)}"
         }
 
+
+# ============================================================================
+# WATCHER AGENT ENDPOINTS
+# ============================================================================
+
+@router.get("/watcher-dashboard")
+async def get_watcher_dashboard(db: Session = Depends(get_db)):
+    """
+    Get Watcher Agent dashboard data with trends, alerts, and risk analysis.
+    
+    Returns real-time monitoring data including:
+    - Detected misinformation trends
+    - Latest high-risk alerts
+    - Most repeated risky claims
+    - Overall risk level assessment
+    """
+    try:
+        from ..services.watcher_agent import WatcherAgent
+        
+        watcher = WatcherAgent(db)
+        dashboard_data = await watcher.get_dashboard_data()
+        
+        return {
+            "status": "success",
+            **dashboard_data
+        }
+    
+    except Exception as e:
+        logger.error(f"Error fetching watcher dashboard: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to fetch watcher dashboard: {str(e)}"
+        )
+
+
+@router.get("/watcher-status")
+async def get_watcher_status():
+    """
+    Get Watcher Agent scheduler status and health check.
+    
+    Returns information about:
+    - Scheduler running state
+    - Last heartbeat timestamp
+    - Error count
+    - Scheduled jobs and next run times
+    """
+    try:
+        from ..services.watcher_scheduler import get_watcher_status
+        
+        status = get_watcher_status()
+        
+        return {
+            "status": "success",
+            **status
+        }
+    
+    except Exception as e:
+        logger.error(f"Error fetching watcher status: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to fetch watcher status: {str(e)}"
+        )
+
+
+@router.post("/watcher-trigger")
+async def trigger_watcher_cycle(db: Session = Depends(get_db)):
+    """
+    Manually trigger a Watcher Agent monitoring cycle.
+    
+    Forces fetching of FRESH articles by setting force_fresh=True.
+    Ensures users get NEW content on every manual refresh.
+    """
+    try:
+        from ..services.watcher_agent import WatcherAgent
+        
+        watcher = WatcherAgent(db)
+        # Use force_fresh=True to ensure we get new articles
+        result = await watcher.run_monitoring_cycle(force_fresh=True)
+        
+        return {
+            "status": "success",
+            "message": "Fresh articles fetched successfully",
+            **result
+        }
+    
+    except Exception as e:
+        logger.error(f"Error triggering watcher cycle: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to trigger monitoring cycle: {str(e)}"
+        )
+
+
+@router.get("/watcher-verified")
+async def get_verified_articles(db: Session = Depends(get_db)):
+    """
+    Get previously verified articles (excluding the latest 2 shown in trending).
+    Returns articles that have been analyzed and verified but are no longer trending.
+    """
+    try:
+        from ..models import WatcherEvent
+        from sqlalchemy import desc
+        
+        # Get all verified articles except the latest 2 (which are shown as trending)
+        verified_articles = db.query(WatcherEvent).order_by(
+            desc(WatcherEvent.first_seen)
+        ).offset(2).limit(10).all()
+        
+        articles_data = []
+        for article in verified_articles:
+            articles_data.append({
+                "id": article.id,
+                "headline": article.headline,
+                "source": article.source,
+                "url": article.url,
+                "verdict": article.verdict,
+                "confidence": article.confidence,
+                "verified_at": article.first_seen.isoformat() if article.first_seen else None,
+                "times_seen": article.times_seen
+            })
+        
+        return {
+            "verified_articles": articles_data,
+            "total_count": len(articles_data)
+        }
+    
+    except Exception as e:
+        logger.error(f"Error fetching verified articles: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to fetch verified articles: {str(e)}"
+        )
+
+

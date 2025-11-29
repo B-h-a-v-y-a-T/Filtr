@@ -15,4 +15,6 @@ transformers
 torch
 sentencepiece
 twilio
+APScheduler
+feedparser
 

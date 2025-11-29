@@ -73,3 +73,36 @@ class DailySummary(Base):
     summary = Column(Text, nullable=False)
     source = Column(String(255), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
+
+
+class WatcherEvent(Base):
+    __tablename__ = "watcher_events"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    keyword_group = Column(String(100), nullable=False, index=True)  # Health, Politics, etc.
+    headline = Column(Text, nullable=False)
+    source = Column(String(255), nullable=False)
+    url = Column(Text, nullable=True)
+    verdict = Column(String(50), nullable=False)  # "Verified True", "Likely False", etc.
+    confidence = Column(Float, nullable=False)
+    category = Column(String(100), nullable=False, index=True)
+    credibility_flag = Column(String(50), nullable=False)  # "high_risk", "medium_risk", "low_risk"
+    first_seen = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
+    times_seen = Column(Integer, default=1, nullable=False)
+    last_seen = Column(DateTime, default=datetime.utcnow, nullable=False)
+    analysis_data = Column(Text, nullable=True)  # JSON string with full analysis details
+
+
+class WatcherLog(Base):
+    __tablename__ = "watcher_logs"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    cycle_timestamp = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
+    api_source = Column(String(50), nullable=False)  # "gnews", "newsapi", "rss"
+    keyword_group = Column(String(100), nullable=False)
+    articles_fetched = Column(Integer, default=0, nullable=False)
+    articles_analyzed = Column(Integer, default=0, nullable=False)
+    api_calls_used = Column(Integer, default=0, nullable=False)
+    status = Column(String(50), nullable=False)  # "success", "rate_limit", "error"
+    error_message = Column(Text, nullable=True)
+    execution_time_seconds = Column(Float, nullable=True)

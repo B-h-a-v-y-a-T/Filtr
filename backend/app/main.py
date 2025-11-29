@@ -124,10 +124,29 @@ async def on_startup() -> None:
     init_db()
     logger.info("Database initialized")
     
+    # Start Watcher Agent Scheduler
+    try:
+        from .services.watcher_scheduler import start_watcher_scheduler
+        start_watcher_scheduler()
+        logger.info("✅ Watcher Agent Scheduler started")
+    except Exception as e:
+        logger.error(f"Failed to start Watcher Agent Scheduler: {e}")
+    
     # Run sandbox tests if enabled
     from .services.analysis_engine import SANDBOX_MODE, run_sandbox_tests
     if SANDBOX_MODE:
         logger.info("SANDBOX_MODE enabled - running stress tests on startup")
         asyncio.create_task(run_sandbox_tests())
+
+
+@app.on_event("shutdown")
+async def on_shutdown() -> None:
+    # Stop Watcher Agent Scheduler
+    try:
+        from .services.watcher_scheduler import stop_watcher_scheduler
+        stop_watcher_scheduler()
+        logger.info("✅ Watcher Agent Scheduler stopped")
+    except Exception as e:
+        logger.error(f"Failed to stop Watcher Agent Scheduler: {e}")
 
 
