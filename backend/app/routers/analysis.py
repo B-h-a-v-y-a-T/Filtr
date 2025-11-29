@@ -15,6 +15,7 @@ from ..services.analysis_engine import verify_claim, clear_cache as clear_analys
 from ..services.db import get_db, create_user, get_user_by_email, verify_login
 from ..services.daily_summary import save_daily_summary, get_summaries
 from ..services.reddit_scraper import scrape_news, format_scrape_results
+from ..services.google_news_scraper import scrape_google_news, get_continent_stats
 from ..services.strategy_agent import (
     generate_strategy_output,
     chatbot_query,
@@ -420,6 +421,66 @@ async def scrape_reddit_news(
         return {
             "status": "error",
             "message": f"Failed to scrape Reddit: {str(e)}",
+            "data": []
+        }
+
+
+# ============================================================================
+# GOOGLE NEWS RSS SCRAPER ENDPOINT
+# ============================================================================
+
+@router.get("/scrape-google-news")
+async def scrape_google_news_endpoint(
+    keyword: str = Query(..., description="Search term for news articles"),
+    continent: str = Query(default="", description="Continent filter: asia, europe, north america, south america, africa, australia"),
+    limit: int = Query(default=10, ge=1, le=20, description="Maximum articles to retrieve")
+) -> Dict[str, Any]:
+    """
+    Scrape news from Google News RSS feed with optional continent filtering.
+    
+    Args:
+        keyword: Search term for news articles
+        continent: Optional continent filter
+        limit: Maximum number of articles (default: 10)
+        
+    Returns:
+        Dict with status, articles, and continent statistics
+    """
+    try:
+        if not keyword or not keyword.strip():
+            return {
+                "status": "error",
+                "message": "Keyword is required",
+                "data": []
+            }
+        
+        # Normalize continent filter
+        continent_filter = continent.strip().lower() if continent else None
+        valid_continents = ["asia", "europe", "north america", "south america", "africa", "australia"]
+        
+        if continent_filter and continent_filter not in valid_continents:
+            continent_filter = None
+        
+        # Scrape Google News RSS
+        articles = scrape_google_news(keyword.strip(), continent_filter, limit)
+        
+        # Get continent statistics
+        stats = get_continent_stats(articles)
+        
+        return {
+            "status": "success",
+            "keyword": keyword,
+            "continent_filter": continent_filter,
+            "count": len(articles),
+            "continent_stats": stats,
+            "data": articles
+        }
+        
+    except Exception as e:
+        logger.error(f"Google News scrape failed: {str(e)}")
+        return {
+            "status": "error",
+            "message": f"Failed to scrape Google News: {str(e)}",
             "data": []
         }
 

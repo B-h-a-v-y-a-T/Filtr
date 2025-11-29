@@ -268,6 +268,34 @@ export const scrapeRedditAPI = async (keyword = '', limit = 5) => {
 };
 
 /**
+ * Scrape Google News RSS feed
+ * @param {string} keyword - Search keyword
+ * @param {string} continent - Continent filter (optional): asia, europe, north america, south america, africa, australia
+ * @param {number} limit - Number of articles (default 10)
+ * @returns {Promise<Object>} Google News scraping results with continent stats
+ */
+export const scrapeGoogleNewsAPI = async (keyword, continent = '', limit = 10) => {
+    try {
+        const params = new URLSearchParams();
+        params.append('keyword', keyword);
+        if (continent) params.append('continent', continent);
+        params.append('limit', limit);
+        
+        const response = await fetch(`${API_BASE_URL}/scrape-google-news?${params.toString()}`);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('❌ Google News Scraper API Error:', error);
+        throw error;
+    }
+};
+
+/**
  * Search news articles using GNews API
  * @param {string} keyword - Search keyword
  * @param {number} limit - Number of articles (default 10)

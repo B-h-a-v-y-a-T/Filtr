@@ -973,14 +973,46 @@ async def get_news_results(query: str, max_results: int = 10) -> Dict[str, Any]:
     
     except Exception as e:
         logger.error(f"[UnifiedNews] NewsAPI also failed with exception: {e}")
-        # Both providers failed
-        return {
-            "has_articles": False,
-            "articles": [],
-            "summary": "Both news providers temporarily unavailable",
-            "total_found": 0,
-            "news_provider_used": "none"
-        }
+    
+    # Final fallback: Google News RSS (no API key required)
+    logger.info("[UnifiedNews] Falling back to Google News RSS scraper...")
+    try:
+        from .google_news_scraper import scrape_news
+        rss_articles = await asyncio.to_thread(scrape_news, query[:200], continent=None)
+        
+        if rss_articles and len(rss_articles) > 0:
+            # Convert RSS format to unified format
+            converted_articles = []
+            for article in rss_articles[:max_results]:
+                converted_articles.append({
+                    "title": article.get("title", ""),
+                    "url": article.get("link", ""),
+                    "source": article.get("source", "Unknown"),
+                    "published_date": article.get("published_date", ""),
+                    "description": article.get("title", "")  # RSS doesn't have description
+                })
+            
+            logger.info(f"[UnifiedNews] ✓ Google RSS returned {len(converted_articles)} articles (final fallback)")
+            return {
+                "has_articles": True,
+                "articles": converted_articles,
+                "summary": f"Found {len(converted_articles)} articles via Google News RSS",
+                "total_found": len(converted_articles),
+                "news_provider_used": "google_rss"
+            }
+        else:
+            logger.warning("[UnifiedNews] Google RSS returned no articles")
+    except Exception as e:
+        logger.error(f"[UnifiedNews] Google RSS also failed: {e}")
+    
+    # All providers failed
+    return {
+        "has_articles": False,
+        "articles": [],
+        "summary": "All news providers temporarily unavailable",
+        "total_found": 0,
+        "news_provider_used": "none"
+    }
 
 
 # ============================================================================

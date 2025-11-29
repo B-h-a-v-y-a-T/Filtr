@@ -163,7 +163,7 @@ def search_newsapi(query: str, max_results: int = 10, language: str = "en") -> D
         }
         
         logger.info(f"[NewsAPI] Searching for: {query}")
-        response = requests.get(NEWSAPI_URL, params=params, timeout=10)
+        response = requests.get(NEWSAPI_URL, params=params, timeout=3)
         
         # Check for rate limit or auth errors
         if response.status_code == 429:
@@ -203,7 +203,7 @@ def search_newsapi(query: str, max_results: int = 10, language: str = "en") -> D
             simpler_query = " ".join(query.split()[:3])
             logger.info(f"[NewsAPI] Retrying with simpler query: {simpler_query}")
             params["q"] = simpler_query
-            response = requests.get(NEWSAPI_URL, params=params, timeout=10)
+            response = requests.get(NEWSAPI_URL, params=params, timeout=3)
             response.raise_for_status()
             data = response.json()
             

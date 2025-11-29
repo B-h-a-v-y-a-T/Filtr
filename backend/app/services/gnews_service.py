@@ -162,7 +162,7 @@ def search_gnews(query: str, max_results: int = 5, language: str = "en") -> Dict
         }
         
         logger.info(f"Searching GNews for: {query}")
-        response = requests.get(GNEWS_API_URL, params=params, timeout=10)
+        response = requests.get(GNEWS_API_URL, params=params, timeout=3)
         response.raise_for_status()
         data = response.json()
         
@@ -173,7 +173,7 @@ def search_gnews(query: str, max_results: int = 5, language: str = "en") -> Dict
             simpler_query = " ".join(query.split()[:3])
             logger.info(f"Retrying with simpler query: {simpler_query}")
             params["q"] = simpler_query
-            response = requests.get(GNEWS_API_URL, params=params, timeout=10)
+            response = requests.get(GNEWS_API_URL, params=params, timeout=3)
             response.raise_for_status()
             data = response.json()
             result = _process_gnews_response(data, original_query)

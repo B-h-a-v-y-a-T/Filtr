@@ -9,7 +9,14 @@ from ..models import Base, User, OTPCode, ClaimHistory, Settings
 
 
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./filtr.db")
-engine = create_engine(DATABASE_URL, echo=False, connect_args={"check_same_thread": False} if "sqlite" in DATABASE_URL else {})
+engine = create_engine(
+    DATABASE_URL,
+    echo=False,
+    pool_size=20,
+    max_overflow=30,
+    pool_pre_ping=True,
+    connect_args={"check_same_thread": False} if "sqlite" in DATABASE_URL else {}
+)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
