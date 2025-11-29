@@ -137,16 +137,3 @@ Designed specifically for high-noise situations where citizens struggle to trust
 | Param  | Web Scraper + 2FA + Summary Feeds   |
 
 ---
-
-If you'd like, I can generate:
-
-🔧 badges & shields
-📸 screenshots section UI formatting
-🧾 API documentation expansion
-🎥 demo script for hackathon pitch
-
-Just tell me. 🟢
-
----
-
-Would you like me to export this as a **README.md file**, formatted and downloadable as well?
